@@ -7,7 +7,7 @@ INC = -Iincludes
 
 CC = clang
 CCFLAGS = -Wall -Wextra -Werror -fno-builtin
-SANITIZE = -g3 -fomit-frame-pointer
+SAN = -g3 -fomit-frame-pointer
 
 SRCS =  srcs/ft_strlen.s \
 			# srcs/ft_strcpy.s \
@@ -24,7 +24,7 @@ $(NAME): $(OBJS)
 	$(LIB) $(NAME) $(OBJS)
 
 san: re
-	$(CC) $(CCFLAGS) $(SANITIZE) main.c -o testage_libasm $(NAME)
+	$(CC) $(CCFLAGS) $(SAN) main.c -o testage_libasm $(NAME)
 	touch testage_file.txt
 
 %.o: %.s

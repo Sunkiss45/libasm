@@ -1,4 +1,5 @@
-#include <string.h>
+# include <string.h>
+# include <stdio.h>
 
 # define RED "\033[1;31m"
 # define GREEN "\033[1;32m"
@@ -9,6 +10,8 @@
 # define GREY "\033[1;37m"
 # define ORANGE "\033[38;2;255;165;0m"
 # define RESET "\033[0m"
+
+size_t		ft_strlen(char *str);
 
 void testage_strlen(void)
 {
@@ -22,12 +25,11 @@ void testage_strlen(void)
 		"Hallo",
 		"TeStAgE iMpRoMpTuE",
 		"1-5+4/1*8",
-		NULL
 	};
 
 	for (int i = 0; str[i] != NULL; i++)
 	{
-		printf(YELLOW "Chaine utilisé : |%s|\n\n" RESET), str[i];
+		printf(YELLOW "Chaine utilisé : |%s|\n\n" RESET, str[i]);
 		printf(BLUE "return ft_strlen :			%zu\n" RESET, ft_strlen(str[i]));
 		printf(BLUE "return std strlen :		%zu\n" RESET, strlen(str[i]));
 
@@ -42,13 +44,13 @@ void testage_strlen(void)
 
 int main()
 {
-	printf(GREEN "C'est l'heure du testage" RESET);
+	printf(GREEN "\nC'est l'heure du testage\n" RESET);
 	getchar();
 
 	testage_strlen(); // Tester ft_strlen
 	getchar();
 
-	printf(GREEN "c fini, c tout pété" RESET);
+	printf(GREEN "c fini, c tout pété\n\n" RESET);
 	getchar();
 
 	return 0;

@@ -1,15 +1,13 @@
-section .text
+global ft_strlen					; Déclaration de la fonction en global
 
-global ft_strlen
+ft_strlen:							; Action executées lors du call de la fonction
+	xor rax, rax					; Mise à 0 de la valeur rax
 
-ft_strlen:
-	xor rax, rax
+.loop:								; Label pour executer l'action de ft_strlen
+	cmp byte [rdi + rax], 0			; Comparaison de l'address pointé a l'octet (byte) rdi+rax à un 0 (/0)
+	je .end							; Jump conditionel, si la comparaison précédente est positive, au Label .end
+	inc rax							; Incrémentation de la valeur rax
+	jmp .loop						; Jump inconditionel au Label .loop
 
-.loop:
-	cmp byte [rdi + rax], 0
-	je .end
-	inc rax
-	jmp .loop
-
-.end
-	ret
+.end:								; Label pour executer la fin de ft_strlen
+	ret								; Retour de la valeur rax

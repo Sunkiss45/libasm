@@ -137,9 +137,21 @@ void testage_strcmp(void)
 	for (int i = 0; str[i] != NULL; i++)
 	{
 		printf(YELLOW UNDERLINE "Chaines utilisées :" RESET YELLOW " |%s| |%s|\n" RESET, str[i], strr[i]);
-		printf(CYAN "Return ft_strcmp :		%d\n" RESET, ft_strcmp(str[i], strr[i]));
-		printf(CYAN "Return std strcmp :		%d\n" RESET, strcmp(str[i], strr[i]));
+		
+		int ft = ft_strcmp(str[i], strr[i]);
+		int std = strcmp(str[i], strr[i]);
+		
+		printf(CYAN "Return ft_strcmp :		%d\n" RESET, ft);
+		printf(CYAN "Return std strcmp :		%d\n" RESET, std);
 	
+		if (ft == std)
+			printf(GREEN "- Validé -\n\n" RESET);
+		else if (ft > 0 && std > 0)
+			printf(GREEN "- Validé (mais avec fsan) -\n\n" RESET);
+		else if (ft < 0 && std < 0)
+			printf(GREEN "- Validé (mais avec fsan) -\n\n" RESET);
+		else
+			printf(RED "- C'est raté là.. -\n\n" RESET);
 	}
 }
 

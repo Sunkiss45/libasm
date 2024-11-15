@@ -7,13 +7,17 @@ ft_strcmp:
 	mov r8b, [rdi]
 	mov r9b, [rsi]
 	cmp r8b, r9b
+	jne .end
+	cmp r8b, 0
+	je .end
+	cmp r9b, 0
 	je .end
 	inc rdi
 	inc rsi
-	jmp .end
+	jmp .loop
 
 .end:
-	mov r8b, [rdi]
-	sub r8b, [rsi]
 	movzx rax, r8b
+	movzx r10, r9b
+	sub rax, r10
 	ret

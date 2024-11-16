@@ -4,7 +4,7 @@ ft_strcpy:						; Action executées lors du call de la fonction
 	xor rax, rax				; Mise à 0 de rax
 	mov rax, rdi				; Pointe rax sur rdi (chaine de destination fournis)
 
-.loop:							; Label .loop pour executer l'acction de ft_strcpy
+.loop:							; Label .loop pour executer l'action de ft_strcpy
 	mov r8b, [rsi]				; Copie l'acctuel char de rsi dans r8b
 	cmp r8b, 0					; Compare r8b à 0 (\0)
 	je .end						; Jump conditionel, si la comparaison précédente est positive, au Label .end

@@ -172,7 +172,7 @@ void testage_write(void)
 		"Hallo",
 		"TeStAgE iMpRoMpTuE",
 		"1-5+4/1*8",
-		"UN CHAINE GENRE TRES TREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEES LONGUE",
+		"UNE CHAINE GENRE TRES TREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEES LONGUE",
 		NULL
 	};
 
@@ -182,7 +182,7 @@ void testage_write(void)
 
 	for (int i = 0; i != 6; i++)
 	{
-		printf(YELLOW UNDERLINE "Chaine utilisée :" RESET YELLOW " |%s|\n" RESET, str[i]);
+		printf(YELLOW UNDERLINE "Chaine utilisée :" RESET YELLOW " |%s|\n\n" RESET, str[i]);
 		int len;
 		if (str[i])
 			len = strlen(str[i]);
@@ -194,9 +194,11 @@ void testage_write(void)
 		int fd = 1;
 		int ft = ft_write(fd, str[i], len);
 		ft_errno = errno;
+		errno = 0;
 		write(fd, " | ", 3);
 		int std = write(fd, str[i], len);
 		std_errno = errno;
+		errno = 0;
 		write(fd, "\n", 1);
 		printf(CYAN "Return ft_write :		%zd (%d)" RED " Errno = %d\n" RESET, ft, (int)ft, ft_errno);
 		printf(CYAN "Return std write :		%zd (%d)" RED " Errno = %d\n" RESET, std, (int)std, std_errno);
@@ -210,48 +212,14 @@ void testage_write(void)
 		fd = cus_fd;
 		ft = ft_write(fd, str[i], len);
 		ft_errno = errno;
+		errno = 0;
 		write(fd, " | ", 3);
 		std = write(fd, str[i], len);
 		std_errno = errno;
+		errno = 0;
 		write(fd, "\n", 1);
 		printf(CYAN "Return ft_write :		%zd (%d)" RED " Errno = %d\n" RESET, ft, (int)ft, ft_errno);
 		printf(CYAN "Return std write :		%zd (%d)" RED " Errno = %d\n" RESET, std, (int)std, std_errno);
-
-		if (ft == std && ft_errno == std_errno)
-			printf(GREEN "- Validé -\n\n" RESET);
-		else
-			printf(RED "- C'est raté là.. -\n\n" RESET);
-
-		printf(PURPLE " - Count négatif :\n" RESET);
-		fd = cus_fd;
-		write(fd, " - ", 3);
-		ft = ft_write(fd, str[i], -10);
-		ft_errno = errno;
-		write(fd, " | ", 3);
-		std = write(fd, str[i], -10);
-		std_errno = errno;
-		write(fd, "\n", 1);
-		printf(RESET);
-		printf(CYAN " - Return ft_write :		%zd (%d)" RED " Errno = %d\n" RESET, ft, (int)ft, ft_errno);
-		printf(CYAN " - Return std write :		%zd (%d)" RED " Errno = %d\n" RESET, std, (int)std, std_errno);
-
-		if (ft == std && ft_errno == std_errno)
-			printf(GREEN "- Validé -\n\n" RESET);
-		else
-			printf(RED "- C'est raté là.. -\n\n" RESET);
-
-		printf(PURPLE " - Count * 2 :\n" RESET);
-		fd = cus_fd;
-		write(fd, " - ", 3);
-		// ft = ft_write(fd, str[i], len*2);
-		ft_errno = errno;
-		write(fd, " | ", 3);
-		std = write(fd, str[i], len*2);
-		std_errno = errno;
-		write(fd, "\n", 1);
-		printf(RESET);
-		printf(CYAN " - Return ft_write :		%zd (%d)" RED " Errno = %d\n" RESET, ft, (int)ft, ft_errno);
-		printf(CYAN " - Return std write :		%zd (%d)" RED " Errno = %d\n" RESET, std, (int)std, std_errno);
 
 		if (ft == std && ft_errno == std_errno)
 			printf(GREEN "- Validé -\n\n" RESET);
@@ -263,9 +231,71 @@ void testage_write(void)
 		write(fd, " - ", 3);
 		ft = ft_write(fd, str[i], len);
 		ft_errno = errno;
+		errno = 0;
 		write(fd, " | ", 3);
 		std = write(fd, str[i], len);
 		std_errno = errno;
+		errno = 0;
+		write(fd, "\n", 1);
+		printf(RESET);
+		printf(CYAN " - Return ft_write :		%zd (%d)" RED " Errno = %d\n" RESET, ft, (int)ft, ft_errno);
+		printf(CYAN " - Return std write :		%zd (%d)" RED " Errno = %d\n" RESET, std, (int)std, std_errno);
+
+		if (ft == std && ft_errno == std_errno)
+			printf(GREEN "- Validé -\n\n" RESET);
+		else
+			printf(RED "- C'est raté là.. -\n\n" RESET);
+
+		printf(PURPLE " - Count négatif :\n" RESET);
+		fd = cus_fd;
+		write(fd, " - ", 3);
+		ft = ft_write(fd, str[i], -42);
+		ft_errno = errno;
+		errno = 0;
+		write(fd, " | ", 3);
+		std = write(fd, str[i], -42);
+		std_errno = errno;
+		errno = 0;
+		write(fd, "\n", 1);
+		printf(RESET);
+		printf(CYAN " - Return ft_write :		%zd (%d)" RED " Errno = %d\n" RESET, ft, (int)ft, ft_errno);
+		printf(CYAN " - Return std write :		%zd (%d)" RED " Errno = %d\n" RESET, std, (int)std, std_errno);
+
+		if (ft == std && ft_errno == std_errno)
+			printf(GREEN "- Validé -\n\n" RESET);
+		else
+			printf(RED "- C'est raté là.. -\n\n" RESET);
+
+		printf(PURPLE " - Count / 2 :\n" RESET);
+		fd = cus_fd;
+		write(fd, " - ", 3);
+		ft = ft_write(fd, str[i], len/2);
+		ft_errno = errno;
+		errno = 0;
+		write(fd, " | ", 3);
+		std = write(fd, str[i], len/2);
+		std_errno = errno;
+		errno = 0;
+		write(fd, "\n", 1);
+		printf(RESET);
+		printf(CYAN " - Return ft_write :		%zd (%d)" RED " Errno = %d\n" RESET, ft, (int)ft, ft_errno);
+		printf(CYAN " - Return std write :		%zd (%d)" RED " Errno = %d\n" RESET, std, (int)std, std_errno);
+
+		if (ft == std && ft_errno == std_errno)
+			printf(GREEN "- Validé -\n\n" RESET);
+		else
+			printf(RED "- C'est raté là.. -\n\n" RESET);
+
+		printf(PURPLE " - Count = 0 :\n" RESET);
+		fd = cus_fd;
+		write(fd, " - ", 3);
+		ft = ft_write(fd, str[i], len*0);
+		ft_errno = errno;
+		errno = 0;
+		write(fd, " | ", 3);
+		std = write(fd, str[i], len*0);
+		std_errno = errno;
+		errno = 0;
 		write(fd, "\n", 1);
 		printf(RESET);
 		printf(CYAN " - Return ft_write :		%zd (%d)" RED " Errno = %d\n" RESET, ft, (int)ft, ft_errno);
@@ -300,8 +330,7 @@ int main()
 	testage_write();
 	getchar();
 
-	printf(GREEN "c fini, c tout pété\n" RESET);
-	getchar();
+	printf(GREEN "c fini, c tout pété\n\n" RESET);
 
 	return 0;
 }

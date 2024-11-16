@@ -1,24 +1,24 @@
-global ft_write
+global ft_write					; Déclaration de la fonction en global
 
-extern __errno_location
+extern __errno_location			; Appel externe de la fonction __errno_location
 
-ft_write:
-	xor rax, rax
+ft_write:						; Action executées lors du call de la fonction
+	xor rax, rax				; Mise à 0 de rax
 
-.execute:
-	mov rax, 1
-	syscall
-	cmp rax, 0
-	jl .error
-	jmp .end
+.execute:						; Label .execute pour executer l'action de ft_write
+	mov rax, 1					; Mise à 1 de rax
+	syscall						; Appel systeme de la fonction sys->rax, rax = 1 donc write
+	cmp rax, 0					; Comparaison de rax à 0
+	jl .error					; Jump conditionel, si la comparaison précédente a arg-1 plus petit que arg-2, au Label .error
+	jmp .end					; Jump inconditonel au Label .end
 
-.error:
-	neg rax
-	mov r8, rax
-	call __errno_location
-	mov [rax], r8
-	mov rax, -1
-	ret
+.error:							; Label .error pour gérer les cas d'erreur de ft_write
+	neg rax						; Invertion du signe de rax
+	mov r8, rax					; Copie de rax dans r8
+	call __errno_location		; Appel de la fonction __errno_location pour connaitre l'address de l'errno, résultat dans rax
+	mov [rax], r8				; Copie de r8 dans l'address pointé par rax
+	mov rax, -1					; Mise à -1 de rax
+	ret							; Retour de la valeur rax
 
-.end:
-	ret
+.end:							; Label .end pour executer la fin de ft_write
+	ret							; Retour de la valeur rax

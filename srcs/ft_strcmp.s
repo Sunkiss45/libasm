@@ -8,15 +8,15 @@ ft_strcmp:						; Action executées lors du call de la fonction
 	mov r9b, [rsi]				; Copie l'actuel char de rsi dans r9b
 
 	cmp r8b, r9b				; Compare r8b et r9b entre eux
-	jne .end					; Jump conditionel, si la comparaison précédente est inégale, au Label .end
+	jne .end					; Jump conditionnel, si la comparaison précédente est inégale, au Label .end
 	cmp r8b, 0					; Compare r8b et un bit nul (\0)
-	je .end						; Jump conditionel, si la comparaison précédente est valide, au Label .end
+	je .end						; Jump conditionnel, si la comparaison précédente est valide, au Label .end
 	cmp r9b, 0					; Compare r9b et un bit nul (\0)
-	je .end						; Jump conditionel, si la comparaison précédente est valide, au Label .end
+	je .end						; Jump conditionnel, si la comparaison précédente est valide, au Label .end
 
 	inc rdi						; Déplacement dans la chaine rdi en incrémentation
 	inc rsi						; Déplacement dans la chaine rsi en incrémentation
-	jmp .loop					; Jump inconditionel au Label .loop
+	jmp .loop					; Jump inconditionnel au Label .loop
 
 .end:							; Label .end pour executer la fin de ft_strcmp
 	movzx rax, r8b				; Copie de r8b dans rax (movzx permet de rentrer un petit registre dans un grand)

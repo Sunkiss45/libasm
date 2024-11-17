@@ -9,8 +9,8 @@ ft_write:						; Action executées lors du call de la fonction
 	mov rax, 1					; Mise à 1 de rax
 	syscall						; Appel systeme de la fonction sys->rax, rax = 1 donc write
 	cmp rax, 0					; Comparaison de rax à 0
-	jl .error					; Jump conditionel, si la comparaison précédente contient arg-1 plus petit que arg-2, au Label .error
-	jmp .end					; Jump inconditonel au Label .end
+	jl .error					; Jump conditionnel, si la comparaison précédente contient arg-1 plus petit que arg-2, au Label .error
+	jmp .end					; Jump inconditionnel au Label .end
 
 .error:							; Label .error pour gérer les cas d'erreur de ft_write
 	neg rax						; Invertion du signe de rax

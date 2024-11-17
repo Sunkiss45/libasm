@@ -1,18 +1,18 @@
-global ft_write					; Déclaration de la fonction en global
+global ft_read					; Déclaration de la fonction en global
 
 extern __errno_location			; Appel externe de la fonction __errno_location
 
-ft_write:						; Action executées lors du call de la fonction
+ft_read:						; Action executées lors du call de la fonction
 	xor rax, rax				; Efface le contenu de rax
 
-.execute:						; Label .execute pour executer l'action de ft_write
-	mov rax, 1					; Mise à 1 de rax
-	syscall						; Appel systeme de la fonction sys->rax, rax = 1 donc write
+.execute:						; Label .execute pour executer l'action de ft_read
+	mov rax, 0					; Mise à 0 de rax
+	syscall						; Appel systeme de la fonction sys->rax, rax = 0 donc read
 	cmp rax, 0					; Comparaison de rax à 0
 	jl .error					; Jump conditionel, si la comparaison précédente contient arg-1 plus petit que arg-2, au Label .error
 	jmp .end					; Jump inconditonel au Label .end
 
-.error:							; Label .error pour gérer les cas d'erreur de ft_write
+.error:							; Label .error pour gérer les cas d'erreur de ft_read
 	neg rax						; Invertion du signe de rax
 	mov r8, rax					; Copie de rax dans r8
 	push r8						; Sauvegarde de r8 sur la stack
@@ -22,5 +22,5 @@ ft_write:						; Action executées lors du call de la fonction
 	mov rax, -1					; Mise à -1 de rax
 	ret							; Retour de la valeur rax
 
-.end:							; Label .end pour executer la fin de ft_write
+.end:							; Label .end pour executer la fin de ft_read
 	ret							; Retour de la valeur rax

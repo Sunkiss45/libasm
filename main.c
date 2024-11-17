@@ -18,10 +18,14 @@
 # define ITALIC "\033[3m"
 # define RESET "\033[0m"
 
+# define BUFFER 8192
+
 size_t		ft_strlen(char *str);
 char		*ft_strcpy(char *dst, char const *src);
 int			ft_strcmp(char const *s1, char const *s2);
 ssize_t		ft_write(int fd, const void *buf, size_t count);
+ssize_t		ft_read(int fd, void *buf, size_t count);
+char		*ft_strdup(const char *s);
 
 void testage_strlen(void)
 {
@@ -92,10 +96,10 @@ void testage_strcpy(void)
 		ft_dst_ret = ft_strcpy(ft_dst, str[i]);
 		std_dst_ret = strcpy(std_dst, str[i]);
 
-		printf(CYAN "Valeur de ft_dst avec ft_strcpy :		|%s|" PURPLE " %p\n" RESET, ft_dst, ft_dst);
-		printf(CYAN "Return de ft_strcpy :				|%s|" PURPLE " %p\n" RESET, ft_dst_ret, ft_dst_ret);
-		printf(CYAN "Valeur de std_dst avec std strcpy :		|%s|" PURPLE " %p\n" RESET, std_dst, std_dst);
-		printf(CYAN "Return de std strcpy :				|%s|" PURPLE " %p\n" RESET, std_dst_ret, std_dst_ret);
+		printf(CYAN "Value ft_dst :			|%s|" PURPLE " %p\n" RESET, ft_dst, ft_dst);
+		printf(CYAN "Return ft_strcpy :		|%s|" PURPLE " %p\n" RESET, ft_dst_ret, ft_dst_ret);
+		printf(CYAN "Value std_dst :			|%s|" PURPLE " %p\n" RESET, std_dst, std_dst);
+		printf(CYAN "Return std strcpy :		|%s|" PURPLE " %p\n" RESET, std_dst_ret, std_dst_ret);
 
 		if (!strcmp(ft_dst, str[i]))
 			printf(GREEN "- Validé -\n\n" RESET);
@@ -313,21 +317,171 @@ void testage_write(void)
 	return;
 }
 
+void testage_read(void)
+{
+	printf(ORANGE "");
+	printf("=======================\n");
+	printf("|  Testage de read :  |\n");
+	printf("=======================\n\n" RESET);
+
+	char	buf[BUFFER];
+	int		fd;
+	int		ft;
+	int		std;
+	char	ft_buf[BUFFER];
+	char	std_buf[BUFFER];
+	int		cus_fd = open("testage_file.txt", O_RDONLY);
+	int		ft_errno = 0;
+	int		std_errno = 0;
+	errno = 0;
+	bzero(buf, BUFFER);
+	bzero(ft_buf, BUFFER);
+	bzero(std_buf, BUFFER);
+
+	printf(PURPLE "Entrée Standard :\n" RESET);
+	fd = 0;
+	ft = ft_read(fd, buf, BUFFER);
+	strcpy(ft_buf, buf);
+	ft_errno = errno;
+	bzero(buf, BUFFER);
+	errno = 0;
+	write(fd, " | ", 3);
+	std = read(fd, buf, BUFFER);
+	strcpy(std_buf, buf);
+	std_errno = errno;
+	bzero(buf, BUFFER);
+	errno = 0;
+	write(fd, "\n", 1);
+	printf(CYAN "Value ft_buf :		|%s|\n" RESET, ft_buf);
+	printf(CYAN "Value std_buf :		|%s|\n" RESET, std_buf);
+	printf(CYAN "Return ft_read :		%zd (%d)" RED " Errno = %d\n" RESET, ft, (int)ft, ft_errno);
+	printf(CYAN "Return std read :		%zd (%d)" RED " Errno = %d\n" RESET, std, (int)std, std_errno);
+
+	if (ft == std && !strcmp(ft_buf, std_buf) && ft_errno == std_errno)
+		printf(GREEN "- Validé -\n\n" RESET);
+	else
+		printf(RED "- C'est raté là.. -\n\n" RESET);
+
+	printf(PURPLE "Entrée FD :\n" RESET);
+	fd = cus_fd;
+	ft = ft_read(fd, buf, BUFFER);
+	ft_errno = errno;
+	strcpy(ft_buf, buf);
+	bzero(buf, BUFFER);
+	errno = 0;
+	close(cus_fd);
+	cus_fd = open("testage_file.txt", O_RDONLY);
+	fd = cus_fd;
+	std = read(fd, buf, BUFFER);
+	std_errno = errno;
+	strcpy(std_buf, buf);
+	bzero(buf, BUFFER);
+	errno = 0;
+	printf(CYAN "Value ft_buf :		|%s|\n" RESET, ft_buf);
+	printf(CYAN "Value std_buf :		|%s|\n" RESET, std_buf);
+	printf(CYAN "Return ft_read :		%zd (%d)" RED " Errno = %d\n" RESET, ft, (int)ft, ft_errno);
+	printf(CYAN "Return std read :		%zd (%d)" RED " Errno = %d\n" RESET, std, (int)std, std_errno);
+
+	if (ft == std && !strcmp(ft_buf, std_buf) && ft_errno == std_errno)
+		printf(GREEN "- Validé -\n\n" RESET);
+	else
+		printf(RED "- C'est raté là.. -\n\n" RESET);
+
+	close(cus_fd);
+	cus_fd = open("testage_file.txt", O_RDONLY);
+	fd = cus_fd;
+
+	printf(PURPLE " - Count = 42 :\n" RESET);
+	fd = cus_fd;
+	ft = ft_read(fd, buf, 42);
+	ft_errno = errno;
+	strcpy(ft_buf, buf);
+	bzero(buf, BUFFER);
+	errno = 0;
+	close(cus_fd);
+	cus_fd = open("testage_file.txt", O_RDONLY);
+	fd = cus_fd;
+	std = read(fd, buf, 42);
+	std_errno = errno;
+	strcpy(std_buf, buf);
+	bzero(buf, BUFFER);
+	errno = 0;
+	printf(CYAN " - Value ft_buf :		|%s|\n" RESET, ft_buf);
+	printf(CYAN " - Value std_buf :		|%s|\n" RESET, std_buf);
+	printf(CYAN " - Return ft_read :		%zd (%d)" RED " Errno = %d\n" RESET, ft, (int)ft, ft_errno);
+	printf(CYAN " - Return std read :		%zd (%d)" RED " Errno = %d\n" RESET, std, (int)std, std_errno);
+
+	if (ft == std && !strcmp(ft_buf, std_buf) && ft_errno == std_errno)
+		printf(GREEN "- Validé -\n\n" RESET);
+	else
+		printf(RED "- C'est raté là.. -\n\n" RESET);
+
+	close(cus_fd);
+
+	return;
+}
+
+void testage_strdup(void)
+{
+	printf(ORANGE "");
+	printf("=========================\n");
+	printf("|  Testage de strdup :  |\n");
+	printf("=========================\n\n" RESET);
+
+	char *str[] = {
+		"",
+		"Hallo",
+		"TeStAgE iMpRoMpTuE",
+		"1-5+4/1*8",
+		NULL
+	};
+
+	for (int i = 0; str[i] != NULL; i++)
+	{
+		printf(YELLOW UNDERLINE "Chaine utilisée :" RESET YELLOW " |%s|" PURPLE " %p\n" RESET, str[i], str[i]);
+
+		char *ft_dst = NULL;
+		char *std_dst = NULL;
+
+		ft_dst = ft_strdup(str[i]);
+		std_dst = strdup(str[i]);
+
+		printf(CYAN "Value ft_dst :		|%s|" PURPLE " %p\n" RESET, ft_dst, ft_dst);
+		printf(CYAN "Value std_dst:		|%s|" PURPLE " %p\n" RESET, std_dst, std_dst);
+
+		if (!strcmp(ft_dst, std_dst))
+			printf(GREEN "- Validé -\n\n" RESET);
+		else
+			printf(RED "- C'est raté là.. -\n\n" RESET);
+
+		free(ft_dst);
+		free(std_dst);
+	}
+
+	return;
+}
+
 int main()
 {
 	printf(GREEN "\nC'est l'heure du testage\n" RESET);
 	getchar();
 
-	// testage_strlen();
-	// getchar();
+	testage_strlen();
+	getchar();
 
-	// testage_strcpy();
-	// getchar();
+	testage_strcpy();
+	getchar();
 
-	// testage_strcmp();
-	// getchar();
+	testage_strcmp();
+	getchar();
 
 	testage_write();
+	getchar();
+
+	testage_read();
+	getchar();
+
+	testage_strdup();
 	getchar();
 
 	printf(GREEN "c fini, c tout pété\n\n" RESET);

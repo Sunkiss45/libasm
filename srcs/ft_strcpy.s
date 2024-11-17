@@ -1,7 +1,7 @@
 global ft_strcpy				; Déclaration de la fonction en global
 
 ft_strcpy:						; Action executées lors du call de la fonction
-	xor rax, rax				; Mise à 0 de rax
+	xor rax, rax				; Efface le contenu de rax
 	mov rax, rdi				; Pointe rax sur rdi (chaine de destination fournis)
 
 .loop:							; Label .loop pour executer l'action de ft_strcpy

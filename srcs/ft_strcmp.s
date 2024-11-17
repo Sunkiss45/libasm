@@ -1,7 +1,7 @@
 global ft_strcmp				; Déclaration de la fonction en global
 
 ft_strcmp:						; Action executées lors du call de la fonction
-	xor rax, rax				; Mise à 0 de rax
+	xor rax, rax				; Efface le contenu de rax
 
 .loop:							; Label .loop pour executer l'action de ft_strcmp
 	mov r8b, [rdi]				; Copie l'actuel char de rdi dans r8b

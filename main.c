@@ -27,6 +27,18 @@ ssize_t		ft_write(int fd, const void *buf, size_t count);
 ssize_t		ft_read(int fd, void *buf, size_t count);
 char		*ft_strdup(const char *s);
 
+void	lprintf(const char *msg, size_t limit) {
+    if (strlen(msg) > limit) {
+        for (size_t i = 0; i < limit; i++) {
+            putchar(msg[i]);
+        }
+        printf("[...]");
+    } else {
+        printf("%s", msg);
+    }
+	return;
+}
+
 void testage_strlen(void)
 {
 	printf(ORANGE "");
@@ -232,7 +244,7 @@ void testage_write(void)
 
 		printf(PURPLE " - FD invalide :\n" RESET);
 		fd = -1;
-		write(fd, " - ", 3);
+		write(fd, "FD invalide - ", 14);
 		ft = ft_write(fd, str[i], len);
 		ft_errno = errno;
 		errno = 0;
@@ -252,7 +264,7 @@ void testage_write(void)
 
 		printf(PURPLE " - Count négatif :\n" RESET);
 		fd = cus_fd;
-		write(fd, " - ", 3);
+		write(fd, "Count négatif - ", 16);
 		ft = ft_write(fd, str[i], -42);
 		ft_errno = errno;
 		errno = 0;
@@ -272,7 +284,7 @@ void testage_write(void)
 
 		printf(PURPLE " - Count / 2 :\n" RESET);
 		fd = cus_fd;
-		write(fd, " - ", 3);
+		write(fd, "Count / 2 - ", 12);
 		ft = ft_write(fd, str[i], len/2);
 		ft_errno = errno;
 		errno = 0;
@@ -292,7 +304,7 @@ void testage_write(void)
 
 		printf(PURPLE " - Count = 0 :\n" RESET);
 		fd = cus_fd;
-		write(fd, " - ", 3);
+		write(fd, "Count = 0 - ", 12);
 		ft = ft_write(fd, str[i], len*0);
 		ft_errno = errno;
 		errno = 0;
@@ -352,8 +364,8 @@ void testage_read(void)
 	bzero(buf, BUFFER);
 	errno = 0;
 	write(fd, "\n", 1);
-	printf(CYAN "Value ft_buf :		|%s|\n" RESET, ft_buf);
-	printf(CYAN "Value std_buf :		|%s|\n" RESET, std_buf);
+	printf(CYAN "Value ft_buf :		|" GREY "%s" CYAN "|\n" RESET, ft_buf);
+	printf(CYAN "Value std_buf :		|" GREY "%s" CYAN "|\n" RESET, std_buf);
 	printf(CYAN "Return ft_read :		%zd (%d)" RED " Errno = %d\n" RESET, ft, (int)ft, ft_errno);
 	printf(CYAN "Return std read :		%zd (%d)" RED " Errno = %d\n" RESET, std, (int)std, std_errno);
 
@@ -377,8 +389,8 @@ void testage_read(void)
 	strcpy(std_buf, buf);
 	bzero(buf, BUFFER);
 	errno = 0;
-	printf(CYAN "Value ft_buf :		|%s|\n" RESET, ft_buf);
-	printf(CYAN "Value std_buf :		|%s|\n" RESET, std_buf);
+	printf(CYAN "Value ft_buf :		|" GREY "%s" CYAN "|\n" RESET, ft_buf);
+	printf(CYAN "Value std_buf :		|" GREY "%s" CYAN "|\n" RESET, std_buf);
 	printf(CYAN "Return ft_read :		%zd (%d)" RED " Errno = %d\n" RESET, ft, (int)ft, ft_errno);
 	printf(CYAN "Return std read :		%zd (%d)" RED " Errno = %d\n" RESET, std, (int)std, std_errno);
 
@@ -406,8 +418,8 @@ void testage_read(void)
 	strcpy(std_buf, buf);
 	bzero(buf, BUFFER);
 	errno = 0;
-	printf(CYAN " - Value ft_buf :		|%s|\n" RESET, ft_buf);
-	printf(CYAN " - Value std_buf :		|%s|\n" RESET, std_buf);
+	printf(CYAN " - Value ft_buf :		|" GREY "%s" CYAN "|\n" RESET, ft_buf);
+	printf(CYAN " - Value std_buf :		|" GREY "%s" CYAN "|\n" RESET, std_buf);
 	printf(CYAN " - Return ft_read :		%zd (%d)" RED " Errno = %d\n" RESET, ft, (int)ft, ft_errno);
 	printf(CYAN " - Return std read :		%zd (%d)" RED " Errno = %d\n" RESET, std, (int)std, std_errno);
 
